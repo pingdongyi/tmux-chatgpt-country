@@ -6,8 +6,7 @@ Shows the two-letter `loc` country code from
 
 ## Install with TPM
 
-Add this to `~/.tmux.conf`, before TPM's initialization line. For this private
-repository, Git must have access to your GitHub account:
+Add this to `~/.tmux.conf`, before TPM's initialization line:
 
 ```tmux
 set -g @plugin 'tmux-plugins/tpm'
@@ -17,15 +16,26 @@ set -g @plugin 'pingdongyi/tmux-chatgpt-country'
 set -g @chatgpt-country-ttl 300
 set -g @chatgpt-country-placeholder '??'
 
-set -g status-right '%H:%M'
+set -g status-right 'ChatGPT: #{chatgpt_country} | %H:%M'
 
 # Keep TPM initialization last.
 run '~/.tmux/plugins/tpm/tpm'
 ```
 
-Reload the config and press `prefix` + `I` (capital i) to install. The plugin
-appends the country command to the existing `status-right`; reloading does not
-add duplicates. Set your custom `status-right` before TPM initializes.
+Reload the config and press `prefix` + `I` (capital i) to install. Use
+`#{chatgpt_country}` in `status-right` to choose the country code's position and
+label. The plugin replaces this variable with its cached status command when
+TPM initializes. Set your custom `status-right` before TPM initializes.
+
+For example, alongside tmux-net-speed:
+
+```tmux
+set -g status-right-length 80
+set -g status-right '#{net_speed} | ChatGPT: #{chatgpt_country} | %H:%M'
+```
+
+If `#{chatgpt_country}` is absent, the plugin appends the country command to the
+existing `status-right`. Reloading does not add duplicate commands.
 
 For a local checkout, use this instead of the plugin declaration:
 
